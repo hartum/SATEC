@@ -1,13 +1,36 @@
 <template>
 	<div class="header">
 		<h1>Salas</h1>
-		<select>
-			<option value="1">Planta 1</option>
-			<option value="2">Planta 2</option>
-			<option value="3">Planta 3</option>
+		<select id="floorSelect">
+			<option v-for="floor in floorList" :value="floor.id">
+				{{ floor.name }}
+			</option>
 		</select>
+		<span class="is-loading" v-if="isFloorLoading">
+			<img src="@/assets/loader.gif" /> Cargando las plantas
+		</span>
 	</div>
 </template>
+<script>
+	import { onMounted, computed } from 'vue';
+	import { useStore } from 'vuex';
+	export default {
+		setup() {
+			const store = useStore();
+			const floorList = computed(() => store.state.floorList);
+			const isFloorLoading = computed(() => store.state.isFloorLoading);
+
+			onMounted(() => {
+				store.dispatch('getFloorList');
+			});
+
+			return {
+				floorList,
+				isFloorLoading,
+			};
+		},
+	};
+</script>
 <style lang="scss">
 	.header {
 		border-bottom: 1px solid #eeeff2;

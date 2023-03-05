@@ -39,4 +39,10 @@
 			color: var(--azul-oscuro);
 		}
 	}
+	.is-loading {
+		img {
+			width: 20px;
+			vertical-align: middle;
+		}
+	}
 </style>
