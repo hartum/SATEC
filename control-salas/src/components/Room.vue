@@ -15,18 +15,50 @@
 			/>
 
 			<button type="button">Modificar</button>
-			<div class="deleteRoom">X</div>
+			<div class="deleteRoom" @click="showConfirmation(true)">X</div>
+			<div
+				v-if="isDelConfirmation"
+				class="delConfirmation flex align-content-center flex-wrap text-center justify-content-center"
+			>
+				<p>¿Seguro que desea borrar esta sala?</p>
+				<button type="button" class="outline" @click="showConfirmation(false)">
+					Cancelar
+				</button>
+				<button type="button" class="danger" @click="deleteRoom(roomID)">
+					Borrar
+				</button>
+			</div>
 		</div>
 	</div>
 </template>
 <script>
 	import { ref } from 'vue';
+	import { useStore } from 'vuex';
 	export default {
 		props: {
-			id: Number,
+			roomID: Number,
 			name: String,
 			capacity: Number,
 			occupation: Number,
+		},
+		setup() {
+			const store = useStore();
+			let isDelConfirmation = ref(false);
+
+			//--- show or hide delete confirmation container
+			const showConfirmation = (visible) => {
+				isDelConfirmation.value = visible;
+			};
+			const deleteRoom = (roomID) => {
+				console.log(roomID);
+				showConfirmation(false);
+				store.dispatch('delRoom', roomID);
+			};
+			return {
+				isDelConfirmation,
+				showConfirmation,
+				deleteRoom,
+			};
 		},
 	};
 </script>
@@ -77,5 +109,30 @@
 	}
 	.card {
 		position: relative;
+		.delConfirmation {
+			position: absolute;
+			background-color: rgba($color: #000000, $alpha: 0.8);
+			color: #fff;
+			top: 10px;
+			left: 10px;
+			right: 10px;
+			bottom: 10px;
+			padding: 0.5em;
+			border-radius: var(--radio-containers);
+			.outline {
+				border: 1px solid #fff;
+				background-color: transparent;
+				margin-right: 0.5em;
+				&:hover {
+					background-color: #fff;
+				}
+			}
+			.danger {
+				background-color: red;
+				&:hover {
+					background-color: #fff;
+				}
+			}
+		}
 	}
 </style>

@@ -27,6 +27,12 @@ export default createStore({
     setRoomLoading(state, isLoading){
       state.isRoomLoading = isLoading;
     },
+    delRoomLocal(state, roomID){
+      //-- define equalID condition and find the element with same ID
+      const equalID = (element) => element.id === roomID;
+      const elementIndex = state.roomList.findIndex(equalID)
+      state.roomList.splice(elementIndex,1);
+    }
   },
   actions: {
     async getFloorList({commit, dispatch}){
@@ -56,7 +62,12 @@ export default createStore({
           commit("setRoomLoading", false);
         });
     },
+    async delRoom({commit},roomID){
+      //--- Axios request to delete in Database NOT IMPLEMENTED
+      commit("delRoomLocal", roomID);
+    },
   },
+
   modules: {
   }
 })

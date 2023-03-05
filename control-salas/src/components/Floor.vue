@@ -12,6 +12,7 @@
 			</div>
 			<Room
 				v-for="room in roomList"
+				:roomID="room.id"
 				:name="room.name"
 				:capacity="room.capacity"
 				:occupation="room.occupation"
