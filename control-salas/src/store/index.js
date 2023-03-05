@@ -4,8 +4,10 @@ import axios from 'axios'
 export default createStore({
   state: {
     floorList: [],
+    roomList: [],
     activeFloorName:'',
     isFloorLoading: false,
+    isRoomLoading: false,
   },
   getters: {
   },
@@ -13,12 +15,18 @@ export default createStore({
     updateFloorList(state, list){
       state.floorList = list;
     },
-    updateFloorName(state, name){
+    updateActiveFloorName(state, name){
       state.activeFloorName = name;
     },
     setFloorLoading(state, isLoading){
       state.isFloorLoading = isLoading;
-    }
+    },
+    updateRoomList(state, list){
+      state.roomList = list;
+    },
+    setRoomLoading(state, isLoading){
+      state.isRoomLoading = isLoading;
+    },
   },
   actions: {
     async getFloorList({commit, dispatch}){
@@ -26,14 +34,28 @@ export default createStore({
       axios
 					.get('https://apimocha.com/hartum/list-floors')
 					.then((response) => {
-						commit('updateFloorList', response.data);
-						commit('updateFloorName', response.data[0].name);
+            const data = response.data;
+						commit('updateFloorList', data);
+						commit('updateActiveFloorName', data[0].name);
 						commit("setFloorLoading", false);
+            dispatch('getRoomsList', data[0].id);
 					})
 					.catch(function (error) {
 						commit("setFloorLoading", false);
 					});
-    }
+    },
+    async getRoomsList({commit},floorID){
+      commit("setRoomLoading", true);
+      axios
+        .get('https://apimocha.com/hartum/list-rooms/' + floorID)
+        .then((response) => {
+          commit("updateRoomList", response.data);
+          commit("setRoomLoading", false);
+        })
+        .catch(function (error) {
+          commit("setRoomLoading", false);
+        });
+    },
   },
   modules: {
   }

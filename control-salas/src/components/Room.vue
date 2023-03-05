@@ -1,18 +1,35 @@
 <template>
 	<div class="col-12 md:col-6 lg:col-3 card">
 		<div class="room">
-			<b>Nombre de la sala</b>
+			<b>{{ name }}</b>
 			<label for="capacity"> Capacidada máxima </label>
-			<input type="number" name="capacity" min="0" value="10" />
+			<input type="number" name="capacity" min="0" :value="capacity" />
 
 			<label for="occupation"> Ocupación </label>
-			<input type="number" name="occupation" max="100" min="0" value="4" />
+			<input
+				type="number"
+				name="occupation"
+				max="100"
+				min="0"
+				:value="occupation"
+			/>
 
 			<button type="button">Modificar</button>
 			<div class="deleteRoom">X</div>
 		</div>
 	</div>
 </template>
+<script>
+	import { ref } from 'vue';
+	export default {
+		props: {
+			id: Number,
+			name: String,
+			capacity: Number,
+			occupation: Number,
+		},
+	};
+</script>
 <style lang="scss" scoped>
 	.room {
 		background-color: var(--azul-claro);

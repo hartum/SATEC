@@ -1,7 +1,7 @@
 <template>
 	<div class="header">
 		<h1>Salas</h1>
-		<select id="floorSelect">
+		<select id="floorSelect" @change="setActiveFloor($event)">
 			<option v-for="floor in floorList" :value="floor.id">
 				{{ floor.name }}
 			</option>
@@ -23,10 +23,19 @@
 			onMounted(() => {
 				store.dispatch('getFloorList');
 			});
+			//--- Make request to get rooms in active floor
+			const setActiveFloor = (event) => {
+				const selectedIndex = event.target.options.selectedIndex;
+				const floorName = event.target.options[selectedIndex].textContent;
+
+				store.commit('updateActiveFloorName', floorName);
+				store.dispatch('getRoomsList', event.target.value);
+			};
 
 			return {
 				floorList,
 				isFloorLoading,
+				setActiveFloor,
 			};
 		},
 	};
