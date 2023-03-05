@@ -38,8 +38,15 @@ export default createStore({
       state.isNewRoonVisible = isVisible;
     },
     addRoom(state, params){
-      console.log(params);
       state.roomList.unshift(params);
+    },
+    updateRoomLocal(state, params){
+     const {id,capacity,occupation} = params;
+      //-- define equalID condition and find the element with same ID
+      const equalID = (element) => element.id === id;
+      const elementIndex = state.roomList.findIndex(equalID);
+      state.roomList[elementIndex].capacity = capacity;
+      state.roomList[elementIndex].occupation = occupation;
     }
   },
   actions: {
@@ -75,11 +82,15 @@ export default createStore({
       commit("delRoomLocal", roomID);
     },
     async createRoom({commit},params){
-      //--- Axios POST request to create new room NOT IMPLEMENTED
+      //--- Axios PUT request to create new room NOT IMPLEMENTED
       params.id = 9;
       commit("addRoom", params);
       commit("updateNewRoomVisible", false);
     },
+    async updateRoom({commit},params){
+      //--- Axios POST request to update the room NOT IMPLEMENTED
+      commit("updateRoomLocal", params);
+    }
   },
 
   modules: {

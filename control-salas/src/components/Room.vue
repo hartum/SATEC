@@ -3,7 +3,13 @@
 		<div class="room">
 			<b>{{ name }}</b>
 			<label for="capacity"> Capacidada máxima </label>
-			<input type="number" name="capacity" min="0" :value="capacity" />
+			<input
+				type="number"
+				name="capacity"
+				min="0"
+				:value="cardCapacity"
+				@input="cardCapacity = $event.target.value"
+			/>
 
 			<label for="occupation"> Ocupación </label>
 			<input
@@ -11,10 +17,11 @@
 				name="occupation"
 				max="100"
 				min="0"
-				:value="occupation"
+				:value="cardOccupation"
+				@input="cardOccupation = $event.target.value"
 			/>
 
-			<button type="button">Modificar</button>
+			<button type="button" @click="updateRoom(roomID)">Modificar</button>
 			<div class="deleteRoom" @click="showConfirmation(true)">X</div>
 			<div
 				v-if="isDelConfirmation"
@@ -41,9 +48,11 @@
 			capacity: Number,
 			occupation: Number,
 		},
-		setup() {
+		setup(props) {
 			const store = useStore();
 			let isDelConfirmation = ref(false);
+			let cardCapacity = ref(props.capacity);
+			let cardOccupation = ref(props.occupation);
 
 			//--- show or hide delete confirmation container
 			const showConfirmation = (visible) => {
@@ -53,10 +62,21 @@
 				showConfirmation(false);
 				store.dispatch('delRoom', roomID);
 			};
+			const updateRoom = (roomID) => {
+				const params = {
+					id: roomID,
+					capacity: cardCapacity.value,
+					occupation: cardOccupation.value,
+				};
+				store.dispatch('updateRoom', params);
+			};
 			return {
 				isDelConfirmation,
 				showConfirmation,
 				deleteRoom,
+				updateRoom,
+				cardCapacity,
+				cardOccupation,
 			};
 		},
 	};
@@ -89,6 +109,9 @@
 		}
 		button[type='button'] {
 			float: right;
+			.check {
+				vertical-align: middle;
+			}
 		}
 		.deleteRoom {
 			background-color: var(--azul-oscuro);
