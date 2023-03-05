@@ -8,6 +8,7 @@ export default createStore({
     activeFloorName:'',
     isFloorLoading: false,
     isRoomLoading: false,
+    isNewRoonVisible: false,
   },
   getters: {
   },
@@ -32,6 +33,13 @@ export default createStore({
       const equalID = (element) => element.id === roomID;
       const elementIndex = state.roomList.findIndex(equalID)
       state.roomList.splice(elementIndex,1);
+    },
+    updateNewRoomVisible(state, isVisible){
+      state.isNewRoonVisible = isVisible;
+    },
+    addRoom(state, params){
+      console.log(params);
+      state.roomList.unshift(params);
     }
   },
   actions: {
@@ -63,8 +71,14 @@ export default createStore({
         });
     },
     async delRoom({commit},roomID){
-      //--- Axios request to delete in Database NOT IMPLEMENTED
+      //--- Axios DELETE request to delete in Database NOT IMPLEMENTED
       commit("delRoomLocal", roomID);
+    },
+    async createRoom({commit},params){
+      //--- Axios POST request to create new room NOT IMPLEMENTED
+      params.id = 9;
+      commit("addRoom", params);
+      commit("updateNewRoomVisible", false);
     },
   },
 

@@ -50,7 +50,6 @@
 				isDelConfirmation.value = visible;
 			};
 			const deleteRoom = (roomID) => {
-				console.log(roomID);
 				showConfirmation(false);
 				store.dispatch('delRoom', roomID);
 			};

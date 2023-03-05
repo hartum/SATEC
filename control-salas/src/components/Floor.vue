@@ -8,8 +8,9 @@
 				</span>
 			</div>
 			<div class="col-4 text-right">
-				<button type="button">Añadir Sala</button>
+				<button type="button" @click="showNewRoom">Añadir Sala</button>
 			</div>
+			<NewRoom />
 			<Room
 				v-for="room in roomList"
 				:roomID="room.id"
@@ -24,16 +25,22 @@
 	import { useStore } from 'vuex';
 	import { computed } from 'vue';
 	import Room from '/src/components/Room.vue';
+	import NewRoom from './NewRoom.vue';
 	export default {
 		components: {
 			Room,
+			NewRoom,
 		},
 		setup() {
 			const store = useStore();
 			const roomList = computed(() => store.state.roomList);
 			const floorName = computed(() => store.state.activeFloorName);
 			const isRoomLoading = computed(() => store.state.isRoomLoading);
-			return { roomList, floorName, isRoomLoading };
+
+			const showNewRoom = () => {
+				store.commit('updateNewRoomVisible', true);
+			};
+			return { roomList, floorName, isRoomLoading, showNewRoom };
 		},
 	};
 </script>
