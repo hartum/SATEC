@@ -53,7 +53,7 @@ Por último he dividido la aplicación en 4 componentes:
 ## Dificultades encontradas
 
 Las principales dificultades no han han sido problemas de desarrollo, como siempre el diablo está en los detalles.
-La primera ha sido que realmente el rato que he tenido para sentarme ha hacer la prueba ha sido el fin de semana.
+La primera ha sido que realmente el rato que he tenido para sentarme para hacer la prueba ha sido el fin de semana.
 
 La segunda y que me llevo un buen rato, era que la API no me estaba devolviendo un JSON, hasta que me di cuenta que al copiar y pegar directamente del editor, lo que estaba pegando era un STRING y no un JSON.
 
