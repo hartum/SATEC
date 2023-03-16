@@ -7,7 +7,7 @@
 				type="number"
 				name="capacity"
 				min="0"
-				:value="cardCapacity"
+				:value="capacity"
 				@input="cardCapacity = $event.target.value"
 			/>
 
@@ -17,7 +17,7 @@
 				name="occupation"
 				max="100"
 				min="0"
-				:value="cardOccupation"
+				:value="occupation"
 				@input="cardOccupation = $event.target.value"
 			/>
 
