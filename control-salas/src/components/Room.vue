@@ -51,8 +51,8 @@
 		setup(props) {
 			const store = useStore();
 			let isDelConfirmation = ref(false);
-			let cardCapacity = ref(props.capacity);
-			let cardOccupation = ref(props.occupation);
+			let cardCapacity = ref();
+			let cardOccupation = ref();
 
 			//--- show or hide delete confirmation container
 			const showConfirmation = (visible) => {
